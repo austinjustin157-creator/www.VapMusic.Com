@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VapMusic - Discover & Download Music</title>
+
+<style>
+/* ---------- GLOBAL STYLES ---------- */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ---------- HEADER ---------- */
+header {
+    padding: 30px;
+    text-align: center;
+    background: rgba(36, 32, 32, 0.4);
+    backdrop-filter: blur(6px);
+}
+
+header h1 {
+    font-size: 3rem;
+    letter-spacing: 3px;
+}
+
+header p {
+    opacity: 0.8;
+}
+
+/* ---------- MUSIC SECTION ---------- */
+section {
+    padding: 50px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+/* ---------- MUSIC GRID ---------- */
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+/* ---------- MUSIC CARD ---------- */
+.music-card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.music-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.music-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.music-content {
+    padding: 20px;
+}
+
+.music-content h3 {
+    margin: 0 0 10px;
+}
+
+.music-content audio {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.download-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: #00e5ff;
+    color: #000;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.download-btn:hover {
+    background: #00bcd4;
+}
+
+/* ---------- CONTACT SECTION ---------- */
+.services-section {
+    background: rgba(0, 229, 255, 0.08);
+    border-radius: 15px;
+    padding: 50px 40px;
+    margin: 50px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.services-section h2 {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.services-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 229, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.service-card h3 {
+    margin-top: 0;
+    color: #00e5ff;
+    font-size: 1.3rem;
+}
+
+.service-card p {
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+.contact-section {
+    background: rgba(0, 229, 255, 0.1);
+    border-radius: 15px;
+    padding: 40px;
+    margin: 50px auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.contact-section h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.contact-methods {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #00e5ff, #00bcd4);
+    color: #000;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 0.95rem;
+}
+
+.contact-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 229, 255, 0.4);
+}
+
+.contact-icon {
+    font-size: 1.2rem;
+}
+
+/* ---------- HEADER LOGO ---------- */
+.logo-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+    animation: fadeInOutLogo 7s infinite;
+}
+
+@keyframes fadeInOutLogo {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>VapMusic</h1>
+    <p>Discover • Listen • Download</p>
+</header>
+
+<section>
+    <div class="logo-section">
+        <img src="vap.jpg" alt="VapMusic Logo" class="header-logo">
+    </div>
+    <h2 class="section-title">Latest Music</h2>
+
+    <div class="music-grid">
+
+        <!-- MUSIC ITEM 1 -->
+        <div class="music-card">
+            <img src="Flamm2-Aboloka--prod-by-flamm2-.jpg" alt="Album Art">
+            <div class="music-content">
+                <h3>Aboloka</h3>
+                <p>Flamm2</p>
+                <audio controls>
+                    <source src="Flamm2-Aboloka--prod-by-flamm2-.mp3" type="audio/mpeg">
+                </audio>
+                <a class="download-btn" href="Flamm2-Aboloka--prod-by-flamm2-.mp3" download="Flamm2-Aboloka--prod-by-flamm2-.mp3">Download</a>
+            </div>
+        </div>
+
+        <!-- MUSIC ITEM 2 -->
+        <div class="music-card">
+            <img src="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.jpg" alt="Album Art">
+            <div class="music-content">
+                <h3>Tulabubwa</h3>
+                <p>Man-Shift-X-Big-Teafer-Feat-Celeb-City</p>
+                <audio controls>
+                    <source src="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" type="audio/mpeg">
+                </audio>
+                <a class="download-btn" href="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" download="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3">Download</a>
+            </div>
+        </div>
+
+        <!-- MUSIC ITEM 3 -->
+        <div class="music-card">
+            <img src="Martinezia-Indine-number-One-Kachasu.jpg" alt="Album Art">
+            <div class="music-content">
+                <h3>Indine-number-One-Kachasu</h3>
+                <p>Martinezia</p>
+                <audio controls>
+                    <source src="Martinezia-Indine-number-One-Kachasu.mp3" type="audio/mpeg">
+                </audio>
+                <a class="download-btn" href="Martinezia-Indine-number-One-Kachasu.mp3" download="Martinezia-Indine-number-One-Kachasu.mp3">Download</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="services-section">
+    <h2>Why Choose VapMusic?</h2>
+    <p style="opacity: 0.9; margin-bottom: 20px; font-size: 1.1rem;">Located in <strong>Kitwe</strong>, we're here to take your music to the next level!</p>
+    
+    <div class="services-content">
+        <div class="service-card">
+            <h3>🎵 Music Upload</h3>
+            <p>Get your tracks distributed across all major platforms. We handle the technical side so you can focus on creating.</p>
+        </div>
+        <div class="service-card">
+            <h3>📢 Music Promotion</h3>
+            <p>Our expert team ensures your music reaches the right audience. We'll amplify your sound and build your fanbase.</p>
+        </div>
+        <div class="service-card">
+            <h3>🚀 Career Growth</h3>
+            <p>From bedroom producer to chart-topper. We provide guidance and support every step of your music journey.</p>
+        </div>
+    </div>
+
+    <p style="opacity: 0.85; margin-top: 30px; font-size: 1rem;">
+        <strong>📱 Contact Us Today:</strong><br>
+        <strong>WhatsApp:</strong> 
+        <a href="https://wa.me/0965655404" target="_blank" style="color: #00e5ff;">0965655404</a><br>
+        <strong>Call Us:</strong> 0760554253<br>
+        <strong>Call us now for music uploads and promotion!</strong>
+    </p>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+    <h2>Get In Touch</h2>
+    <p style="opacity: 0.9; margin-bottom: 25px;">Connect with us on your preferred platform</p>
+    
+    <div class="contact-methods">
+        <!-- WhatsApp -->
+        <a class="contact-btn" href="https://wa.me/0965655404" target="_blank">
+            <span class="contact-icon">💬</span>
+            <span>WhatsApp</span>
+        </a>
+
+        <!-- Email -->
+        <a class="contact-btn" href="mailto:austinjustin157@gmail.com">
+            <span class="contact-icon">📧</span>
+            <span>Email</span>
+        </a>
+
+        <!-- Facebook -->
+        <a class="contact-btn" href="http://www.facebook.com/profile.php?id=100063985901451" target="_blank">
+            <span class="contact-icon">📘</span>
+            <span>Facebook</span>
+        </a>
+    </div>
+</section>
+
+<footer>
+    © 2026 VAPMUSIC. All rights reserved.
+</footer>
+
+<script>
+// Simple JS example (can be expanded later)
+console.log("VAPMUSIC loaded successfully 🎵");
+</script>
+
+</body>
+</html>
