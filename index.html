@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="UVVLW41usaZEtKZsMsyiYk1nzG-JD1N6EtMVQBdGpMc" />
-    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VapMusic - Discover & Download Music</title>
 
 <style>
 /* ---------- GLOBAL STYLES ---------- */
+:root {
+    --primary-color: #00e5ff;
+    --secondary-color: #00bcd4;
+    --danger-color: #ff006e;
+    --bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --bg-light: linear-gradient(135deg, #f5f5f5, #e8e8e8, #f0f0f0);
+    --text-dark: #fff;
+    --text-light: #333;
+}
+
+body.light-mode {
+    --primary-color: #0288d1;
+    --secondary-color: #0097a7;
+    --danger-color: #d32f2f;
+    --text-dark: #333;
+    --text-light: #fff;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #fff;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    transition: background 0.3s, color 0.3s;
 }
 
 a {
@@ -27,15 +44,87 @@ header {
     text-align: center;
     background: rgba(36, 32, 32, 0.4);
     backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
     font-size: 3rem;
     letter-spacing: 3px;
+    margin: 0;
+    flex: 1;
+}
+
+.header-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.theme-toggle, .playlist-toggle {
+    background: var(--primary-color);
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+}
+
+.theme-toggle:hover, .playlist-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
+}
+
+.playlist-counter {
+    background: var(--danger-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
 }
 
 header p {
     opacity: 0.8;
+    margin: 0;
+}
+
+/* ---------- SEARCH BAR ---------- */
+.search-container {
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 229, 255, 0.05);
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.search-bar::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+body.light-mode .search-bar::placeholder {
+    color: rgba(0, 0, 0, 0.5);
 }
 
 /* ---------- MUSIC SECTION ---------- */
@@ -56,6 +145,18 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ---------- MUSIC CARD ---------- */
@@ -64,11 +165,20 @@ section {
     border-radius: 15px;
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+body.light-mode .music-card {
+    background: rgba(0,0,0,0.08);
 }
 
 .music-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.music-card.hidden {
+    display: none;
 }
 
 .music-card img {
@@ -83,6 +193,13 @@ section {
 
 .music-content h3 {
     margin: 0 0 10px;
+    word-break: break-word;
+}
+
+.music-content p {
+    margin: 0 0 10px;
+    opacity: 0.8;
+    font-size: 0.9rem;
 }
 
 .music-content audio {
@@ -90,22 +207,153 @@ section {
     margin: 10px 0;
 }
 
-.download-btn {
-    display: inline-block;
+.button-group {
+    display: flex;
+    gap: 10px;
     margin-top: 10px;
+}
+
+.download-btn, .add-to-playlist-btn {
+    flex: 1;
+    display: inline-block;
     padding: 12px 20px;
-    background: #00e5ff;
+    background: var(--primary-color);
     color: #000;
     border-radius: 30px;
     font-weight: bold;
     transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+    text-align: center;
 }
 
 .download-btn:hover {
-    background: #00bcd4;
+    background: var(--secondary-color);
 }
 
-/* ---------- CONTACT SECTION ---------- */
+.add-to-playlist-btn {
+    background: rgba(0, 229, 255, 0.6);
+}
+
+.add-to-playlist-btn:hover {
+    background: var(--primary-color);
+}
+
+.add-to-playlist-btn.added {
+    background: #4caf50;
+}
+
+/* ---------- LATEST BADGE ---------- */
+.latest-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #ff006e, #d62828);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(255, 0, 110, 0.4);
+}
+
+/* ---------- PLAYLIST MODAL ---------- */
+.playlist-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-modal.active {
+    display: flex;
+}
+
+.playlist-content {
+    background: var(--bg-dark);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+body.light-mode .playlist-content {
+    background: var(--bg-light);
+}
+
+.playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.playlist-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.close-playlist {
+    background: var(--danger-color);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.playlist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.playlist-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.light-mode .playlist-item {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.remove-from-playlist {
+    background: var(--danger-color);
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.remove-from-playlist:hover {
+    background: #c41763;
+}
+
+.empty-playlist {
+    text-align: center;
+    opacity: 0.6;
+    padding: 40px 20px;
+}
+
+/* ---------- SERVICES SECTION ---------- */
 .services-section {
     background: rgba(0, 229, 255, 0.08);
     border-radius: 15px;
@@ -113,6 +361,10 @@ section {
     margin: 50px auto;
     max-width: 900px;
     text-align: center;
+}
+
+body.light-mode .services-section {
+    background: rgba(2, 136, 209, 0.08);
 }
 
 .services-section h2 {
@@ -136,6 +388,11 @@ section {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
+body.light-mode .service-card {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(2, 136, 209, 0.2);
+}
+
 .service-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 229, 255, 0.15);
@@ -144,7 +401,7 @@ section {
 
 .service-card h3 {
     margin-top: 0;
-    color: #00e5ff;
+    color: var(--primary-color);
     font-size: 1.3rem;
 }
 
@@ -153,25 +410,7 @@ section {
     line-height: 1.6;
 }
 
-/* ---------- LATEST BADGE ---------- */
-.latest-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: linear-gradient(135deg, #ff006e, #d62828);
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 25px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    z-index: 1;
-    box-shadow: 0 4px 10px rgba(255, 0, 110, 0.4);
-}
-
-.music-card {
-    position: relative;
-}
-
+/* ---------- CONTACT SECTION ---------- */
 .contact-section {
     background: rgba(0, 229, 255, 0.1);
     border-radius: 15px;
@@ -179,6 +418,10 @@ section {
     margin: 50px auto;
     max-width: 600px;
     text-align: center;
+}
+
+body.light-mode .contact-section {
+    background: rgba(2, 136, 209, 0.1);
 }
 
 .contact-section h2 {
@@ -199,7 +442,7 @@ section {
     align-items: center;
     gap: 10px;
     padding: 15px 25px;
-    background: linear-gradient(135deg, #00e5ff, #00bcd4);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: #000;
     border-radius: 30px;
     font-weight: bold;
@@ -247,11 +490,196 @@ section {
     }
 }
 
+/* ---------- MTN BILLING SECTION ---------- */
+#mtn-billing {
+    background: rgba(255, 153, 0, 0.1);
+    border-radius: 15px;
+    padding: 50px 40px;
+    margin: 50px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+body.light-mode #mtn-billing {
+    background: rgba(255, 153, 0, 0.08);
+}
+
+#mtn-billing h2 {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+#billing-form {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+body.light-mode #billing-form {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+#billing-form label {
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    margin-bottom: 8px;
+}
+
+#billing-form input[type="text"],
+#billing-form input[type="file"],
+#billing-form input[type="tel"] {
+    padding: 12px 15px;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.light-mode #billing-form input[type="text"],
+body.light-mode #billing-form input[type="file"],
+body.light-mode #billing-form input[type="tel"] {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+#billing-form input[type="text"]:focus,
+#billing-form input[type="file"]:focus,
+#billing-form input[type="tel"]:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+#billing-form input[type="file"]::file-selector-button {
+    background: var(--primary-color);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#billing-form button[type="submit"] {
+    background: linear-gradient(135deg, #ff9900, #ff6b00);
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+
+#billing-form button[type="submit"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.4);
+}
+
+#approval-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 153, 0, 0.3);
+}
+
+body.light-mode #approval-section {
+    background: rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(255, 153, 0, 0.3);
+}
+
+#approval-section h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.pending-request {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+body.light-mode .pending-request {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.approve-btn, .reject-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.approve-btn {
+    background: #4caf50;
+    color: #fff;
+}
+
+.approve-btn:hover {
+    transform: scale(1.05);
+    background: #45a049;
+}
+
+.reject-btn {
+    background: var(--danger-color);
+    color: #fff;
+}
+
+.reject-btn:hover {
+    transform: scale(1.05);
+    background: #c41763;
+}
+
 /* ---------- FOOTER ---------- */
 footer {
     text-align: center;
     padding: 20px;
     opacity: 0.6;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .header-controls {
+        width: 100%;
+    }
+
+    .music-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
 }
 </style>
 </head>
@@ -260,8 +688,15 @@ footer {
 
 <header>
     <h1>VapMusic</h1>
-    <p>Discover • Listen • Download</p>
+    <div class="header-controls">
+        <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
+        <button class="playlist-toggle" id="playlistToggle">🎵 Playlist <span class="playlist-counter" id="playlistCounter">0</span></button>
+    </div>
 </header>
+
+<div class="search-container">
+    <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search music by title or artist...">
+</div>
 
 <section>
     <div class="logo-section">
@@ -269,10 +704,10 @@ footer {
     </div>
     <h2 class="section-title">Latest Music</h2>
 
-    <div class="music-grid">
+    <div class="music-grid" id="musicGrid">
 
         <!-- MUSIC ITEM 1 -->
-        <div class="music-card">
+        <div class="music-card" data-title="Never Give Up" data-artist="Mr Fresh Ft Flex & Venus">
             <span class="latest-badge">🔥 LATEST</span>
             <img src="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].jpg" alt="Album Art">
             <div class="music-content">
@@ -281,12 +716,15 @@ footer {
                 <audio controls>
                     <source src="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3" type="audio/mpeg">
                 </audio>
-                <a class="download-btn" href="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3" download="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3">Download</a>
+                <div class="button-group">
+                    <a class="download-btn" href="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3" download="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="1">+ Playlist</button>
+                </div>
             </div>
         </div>
 
         <!-- MUSIC ITEM 2 -->
-        <div class="music-card">
+        <div class="music-card" data-title="Tulabubwa" data-artist="Man-Shift-X-Big-Teafer-Feat-Celeb-City">
             <img src="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.jpg" alt="Album Art">
             <div class="music-content">
                 <h3>Tulabubwa</h3>
@@ -294,12 +732,15 @@ footer {
                 <audio controls>
                     <source src="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" type="audio/mpeg">
                 </audio>
-                <a class="download-btn" href="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" download="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3">Download</a>
+                <div class="button-group">
+                    <a class="download-btn" href="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" download="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="2">+ Playlist</button>
+                </div>
             </div>
         </div>
 
         <!-- MUSIC ITEM 3 -->
-        <div class="music-card">
+        <div class="music-card" data-title="Indine-number-One-Kachasu" data-artist="Martinezia">
             <img src="Martinezia-Indine-number-One-Kachasu.jpg" alt="Album Art">
             <div class="music-content">
                 <h3>Indine-number-One-Kachasu</h3>
@@ -307,12 +748,15 @@ footer {
                 <audio controls>
                     <source src="Martinezia-Indine-number-One-Kachasu.mp3" type="audio/mpeg">
                 </audio>
-                <a class="download-btn" href="Martinezia-Indine-number-One-Kachasu.mp3" download="Martinezia-Indine-number-One-Kachasu.mp3">Download</a>
+                <div class="button-group">
+                    <a class="download-btn" href="Martinezia-Indine-number-One-Kachasu.mp3" download="Martinezia-Indine-number-One-Kachasu.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="3">+ Playlist</button>
+                </div>
             </div>
         </div>
 
         <!-- MUSIC ITEM 4 -->
-        <div class="music-card">
+        <div class="music-card" data-title="Aboloka" data-artist="Flamm2">
             <img src="Flamm2-Aboloka--prod-by-flamm2-.jpg" alt="Album Art">
             <div class="music-content">
                 <h3>Aboloka</h3>
@@ -320,12 +764,28 @@ footer {
                 <audio controls>
                     <source src="Flamm2-Aboloka--prod-by-flamm2-.mp3" type="audio/mpeg">
                 </audio>
-                <a class="download-btn" href="Flamm2-Aboloka--prod-by-flamm2-.mp3" download="Flamm2-Aboloka--prod-by-flamm2-.mp3">Download</a>
+                <div class="button-group">
+                    <a class="download-btn" href="Flamm2-Aboloka--prod-by-flamm2-.mp3" download="Flamm2-Aboloka--prod-by-flamm2-.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="4">+ Playlist</button>
+                </div>
             </div>
         </div>
 
     </div>
 </section>
+
+<!-- PLAYLIST MODAL -->
+<div class="playlist-modal" id="playlistModal">
+    <div class="playlist-content">
+        <div class="playlist-header">
+            <h2>My Playlist</h2>
+            <button class="close-playlist" id="closePlaylist">✕</button>
+        </div>
+        <ul class="playlist-items" id="playlistItems">
+            <div class="empty-playlist">Your playlist is empty. Add songs to get started!</div>
+        </ul>
+    </div>
+</div>
 
 <!-- SERVICES SECTION -->
 <section class="services-section">
@@ -350,7 +810,7 @@ footer {
     <p style="opacity: 0.85; margin-top: 30px; font-size: 1rem;">
         <strong>📱 Contact Us Today:</strong><br>
         <strong>WhatsApp:</strong> 
-        <a href="https://wa.me/0965655404" target="_blank" style="color: #00e5ff;">0965655404</a><br>
+        <a href="https://wa.me/0965655404" target="_blank" style="color: var(--primary-color);">0965655404</a><br>
         <strong>Call Us:</strong> 0760554253<br>
         <strong>Call us now for music uploads and promotion!</strong>
     </p>
@@ -382,15 +842,298 @@ footer {
     </div>
 </section>
 
+<!-- MTN MOBILE MONEY BILLING SECTION -->
+<section id="mtn-billing">
+    <h2>📱 MTN Mobile Money - Upload Your Music</h2>
+    <p style="opacity: 0.9; margin-bottom: 20px;">Upload your song cover, MP3 file, and details. Pay securely via MTN Mobile Money.</p>
+    
+    <form id="billing-form">
+        <div>
+            <label for="song-title">🎵 Song Title:</label>
+            <input type="text" id="song-title" name="song-title" placeholder="Enter song title" required>
+        </div>
+
+        <div>
+            <label for="artist-name">👤 Artist Name:</label>
+            <input type="text" id="artist-name" name="artist-name" placeholder="Enter artist name" required>
+        </div>
+
+        <div>
+            <label for="song-image">🖼️ Upload Song Cover (Image):</label>
+            <input type="file" id="song-image" name="song-image" accept="image/*" required>
+        </div>
+
+        <div>
+            <label for="song-mp3">🎧 Upload MP3 Song File:</label>
+            <input type="file" id="song-mp3" name="song-mp3" accept=".mp3,audio/mpeg" required>
+        </div>
+
+        <div style="background: rgba(255, 153, 0, 0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+       
+            
+            
+            <label style="margin-bottom: 10px;">📞 MTN Payment Number:</label>
+
+            <div style="font-size: 1.3rem; font-weight: bold; color: var(--primary-color);">0965655404</div>
+
+          
+            <small style="opacity: 0.8;">  📞 MTN Name: Mwape Chilufya</small>
+            
+            <hr>
+           <small style="opacity: 0.8;">Payment will be sent to this number</small>
+
+        </div>
+
+        <button type="submit">💳 Pay with MTN Mobile Money</button>
+    </form>
+
+    <div id="approval-section">
+        <h3>⏳ Pending Approvals</h3>
+        <div id="pending-list">
+            <p style="opacity: 0.7; text-align: center;">No pending requests yet.</p>
+        </div>
+    </div>
+</section>
+
 <footer>
     © 2026 VAPMUSIC. All rights reserved.
 </footer>
 
 <script>
-// Simple JS example (can be expanded later)
+// Playlist Management
+let playlist = JSON.parse(localStorage.getItem('vapPlaylist')) || [];
+let billingRequests = JSON.parse(localStorage.getItem('vapBillingRequests')) || [];
+const musicData = {
+    1: { title: 'Never Give Up', artist: 'Mr Fresh Ft Flex & Venus' },
+    2: { title: 'Tulabubwa', artist: 'Man-Shift-X-Big-Teafer-Feat-Celeb-City' },
+    3: { title: 'Indine-number-One-Kachasu', artist: 'Martinezia' },
+    4: { title: 'Aboloka', artist: 'Flamm2' }
+};
+
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('vapTheme') || 'dark';
+if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    themeToggle.textContent = '☀️ Light';
+}
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    themeToggle.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+    localStorage.setItem('vapTheme', isLight ? 'light' : 'dark');
+});
+
+// Search Functionality
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', (e) => {
+    const query = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll('.music-card');
+    
+    cards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const artist = card.dataset.artist.toLowerCase();
+        
+        if (title.includes(query) || artist.includes(query)) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+});
+
+// Playlist Functions
+function updatePlaylistUI() {
+    const counter = document.getElementById('playlistCounter');
+    const items = document.getElementById('playlistItems');
+    
+    counter.textContent = playlist.length;
+    
+    if (playlist.length === 0) {
+        items.innerHTML = '<div class="empty-playlist">Your playlist is empty. Add songs to get started!</div>';
+        return;
+    }
+    
+    items.innerHTML = playlist.map((song, index) => `
+        <li class="playlist-item">
+            <div>
+                <strong>${musicData[song].title}</strong><br>
+                <small>${musicData[song].artist}</small>
+            </div>
+            <button class="remove-from-playlist" data-index="${index}">Remove</button>
+        </li>
+    `).join('');
+    
+    document.querySelectorAll('.remove-from-playlist').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            playlist.splice(index, 1);
+            localStorage.setItem('vapPlaylist', JSON.stringify(playlist));
+            updatePlaylistUI();
+            updateAddButtons();
+        });
+    });
+}
+
+function updateAddButtons() {
+    document.querySelectorAll('.add-to-playlist-btn').forEach(btn => {
+        const id = btn.dataset.id;
+        if (playlist.includes(parseInt(id))) {
+            btn.classList.add('added');
+            btn.textContent = '✓ Added';
+        } else {
+            btn.classList.remove('added');
+            btn.textContent = '+ Playlist';
+        }
+    });
+}
+
+// Add to Playlist
+document.querySelectorAll('.add-to-playlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.dataset.id);
+        if (playlist.includes(id)) {
+            playlist = playlist.filter(item => item !== id);
+        } else {
+            playlist.push(id);
+        }
+        localStorage.setItem('vapPlaylist', JSON.stringify(playlist));
+        updatePlaylistUI();
+        updateAddButtons();
+    });
+});
+
+// Playlist Modal
+const playlistToggle = document.getElementById('playlistToggle');
+const playlistModal = document.getElementById('playlistModal');
+const closePlaylist = document.getElementById('closePlaylist');
+
+playlistToggle.addEventListener('click', () => {
+    playlistModal.classList.add('active');
+});
+
+closePlaylist.addEventListener('click', () => {
+    playlistModal.classList.remove('active');
+});
+
+playlistModal.addEventListener('click', (e) => {
+    if (e.target === playlistModal) {
+        playlistModal.classList.remove('active');
+    }
+});
+const MTN_NUMBER = '0965655404'; // Fixed MTN number
+
+const billingForm = document.getElementById('billing-form');
+const pendingList = document.getElementById('pending-list');
+
+billingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const songTitle = document.getElementById('song-title').value;
+    const artistName = document.getElementById('artist-name').value;
+    const songImage = document.getElementById('song-image').files[0];
+    const songMp3 = document.getElementById('song-mp3').files[0];
+    
+    // Create request object
+    const request = {
+        id: Date.now(),
+        songTitle,
+        artistName,
+        mtnNumber: MTN_NUMBER,
+        status: 'pending',
+        imageSize: songImage ? (songImage.size / 1024).toFixed(2) + ' KB' : 'N/A',
+        audioSize: songMp3 ? (songMp3.size / 1024).toFixed(2) + ' KB' : 'N/A',
+        imageType: songImage ? songImage.type : 'N/A',
+        audioType: songMp3 ? songMp3.type : 'N/A',
+        timestamp: new Date().toLocaleString(),
+        imageFile: songImage ? songImage.name : 'N/A',
+        audioFile: songMp3 ? songMp3.name : 'N/A'
+    };
+    
+    billingRequests.push(request);
+    localStorage.setItem('vapBillingRequests', JSON.stringify(billingRequests));
+    
+    // Show success message
+    alert(`✅ Request submitted successfully!\\n\\nSong: ${songTitle}\\nArtist: ${artistName}\\n\\nYour request is pending approval.`);
+    
+    // Reset form
+    billingForm.reset();
+    
+    // Update approval list
+    updateApprovalList();
+});
+
+function updateApprovalList() {
+    if (billingRequests.length === 0) {
+        pendingList.innerHTML = '<p style="opacity: 0.7; text-align: center;">No pending requests yet.</p>';
+        return;
+    }
+    
+    pendingList.innerHTML = billingRequests.map((request, index) => `
+        <div class="pending-request">
+            <div style="text-align: left; flex: 1;">
+                <strong>🎵 ${request.songTitle}</strong><br>
+                <small>👤 By: ${request.artistName}</small><br>
+                <small>📱 MTN: ${request.mtnNumber}</small><br>
+                <small>📅 ${request.timestamp}</small><br>
+                <small>🖼️ ${request.imageFile} (${request.imageSize})</small><br>
+                <small>🎧 ${request.audioFile} (${request.audioSize})</small><br>
+                <span style="color: var(--danger-color); font-weight: bold;">Status: ${request.status.toUpperCase()}</span>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+                <button class="approve-btn" data-id="${request.id}">✓ Approve</button>
+                <button class="reject-btn" data-id="${request.id}">✕ Reject</button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Add event listeners to approve/reject buttons
+    document.querySelectorAll('.approve-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            approveRequest(id);
+        });
+    });
+    
+    document.querySelectorAll('.reject-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            rejectRequest(id);
+        });
+    });
+}
+
+function approveRequest(id) {
+    const request = billingRequests.find(r => r.id === id);
+    if (request) {
+        request.status = 'approved';
+        localStorage.setItem('vapBillingRequests', JSON.stringify(billingRequests));
+        updateApprovalList();
+        alert(`✅ Approved: ${request.songTitle} by ${request.artistName}\\n\\nMTN payment can now be processed!`);
+    }
+}
+
+function rejectRequest(id) {
+    const reason = prompt('Enter rejection reason (optional):');
+    const request = billingRequests.find(r => r.id === id);
+    if (request) {
+        request.status = 'rejected';
+        request.rejectionReason = reason || 'No reason provided';
+        localStorage.setItem('vapBillingRequests', JSON.stringify(billingRequests));
+        updateApprovalList();
+        alert(`❌ Rejected: ${request.songTitle}\\n\\nReason: ${request.rejectionReason}`);
+    }
+}
+
+// Initialize approval list
+updateApprovalList();
+
+// Initialize
+updatePlaylistUI();
+updateAddButtons();
 console.log("VAPMUSIC loaded successfully 🎵");
 </script>
 
 </body>
 </html>
-
