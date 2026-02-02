@@ -691,6 +691,7 @@ footer {
     <div class="header-controls">
         <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
         <button class="playlist-toggle" id="playlistToggle">🎵 Playlist <span class="playlist-counter" id="playlistCounter">0</span></button>
+        <button id="admin-toggle" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin</button>
     </div>
 </header>
 
@@ -887,7 +888,10 @@ footer {
         <button type="submit">💳 Pay with MTN Mobile Money</button>
     </form>
 
-    <div id="approval-section">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button id="admin-toggle" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin Panel</button>
+    </div>
+    <div id="approval-section" style="display: none;">
         <h3>⏳ Pending Approvals</h3>
         <div id="pending-list">
             <p style="opacity: 0.7; text-align: center;">No pending requests yet.</p>
@@ -1110,8 +1114,34 @@ function approveRequest(id) {
         request.status = 'approved';
         localStorage.setItem('vapBillingRequests', JSON.stringify(billingRequests));
         updateApprovalList();
-        alert(`✅ Approved: ${request.songTitle} by ${request.artistName}\\n\\nMTN payment can now be processed!`);
+        addApprovedMusicToGrid(request);
+        alert(`✅ Approved: ${request.songTitle} by ${request.artistName}\\n\\nMTN payment can now be processed!\\n\\nSong added to the music grid above.`);
     }
+}
+
+function addApprovedMusicToGrid(request) {
+    const musicGrid = document.getElementById('musicGrid');
+    const newCard = document.createElement('div');
+    newCard.className = 'music-card';
+    newCard.setAttribute('data-title', request.songTitle);
+    newCard.setAttribute('data-artist', request.artistName);
+    newCard.innerHTML = `
+        <span class="latest-badge">🔥 NEW</span>
+        <img src="${request.imageFile ? URL.createObjectURL(request.imageFile) : 'placeholder.jpg'}" alt="Album Art">
+        <div class="music-content">
+            <h3>${request.songTitle}</h3>
+            <p>${request.artistName}</p>
+            <audio controls>
+                <source src="${request.audioFile ? URL.createObjectURL(request.audioFile) : ''}" type="audio/mpeg">
+            </audio>
+            <div class="button-group">
+                <a class="download-btn" href="${request.audioFile ? URL.createObjectURL(request.audioFile) : ''}" download="${request.songTitle}.mp3">Download</a>
+                <button class="add-to-playlist-btn" data-id="${request.id}">+ Playlist</button>
+            </div>
+        </div>
+    `;
+    musicGrid.insertBefore(newCard, musicGrid.firstChild);
+    updateAddButtons();
 }
 
 function rejectRequest(id) {
@@ -1125,6 +1155,19 @@ function rejectRequest(id) {
         alert(`❌ Rejected: ${request.songTitle}\\n\\nReason: ${request.rejectionReason}`);
     }
 }
+
+// Admin Panel Toggle
+const adminToggle = document.getElementById('admin-toggle');
+adminToggle.addEventListener('click', () => {
+    const password = prompt('Enter admin password:');
+    if (password === '111222') {
+        const approvalSection = document.getElementById('approval-section');
+        approvalSection.style.display = approvalSection.style.display === 'none' ? 'block' : 'none';
+        adminToggle.textContent = approvalSection.style.display === 'none' ? '🔒 Admin Panel' : '🔓 Admin Panel';
+    } else {
+        alert('Incorrect password!');
+    }
+});
 
 // Initialize approval list
 updateApprovalList();
