@@ -213,6 +213,34 @@ body.light-mode .music-card {
     margin-top: 10px;
 }
 
+.play-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px auto 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(0, 188, 212, 0.2));
+    border-radius: 30px;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1rem;
+    border: 2px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    max-width: 200px;
+}
+
+.play-count:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+}
+
+.play-count::before {
+    content: '▶️';
+    font-size: 1.2rem;
+}
+
 .download-btn, .add-to-playlist-btn {
     flex: 1;
     display: inline-block;
@@ -351,6 +379,111 @@ body.light-mode .playlist-item {
     text-align: center;
     opacity: 0.6;
     padding: 40px 20px;
+}
+
+/* ---------- ADMIN LOGIN MODAL ---------- */
+.admin-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-modal.active {
+    display: flex;
+}
+
+.admin-content {
+    background: var(--bg-dark);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+body.light-mode .admin-content {
+    background: var(--bg-light);
+}
+
+.admin-header {
+    margin-bottom: 20px;
+}
+
+.admin-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin-form label {
+    font-weight: bold;
+    text-align: left;
+}
+
+.admin-form input[type="password"] {
+    padding: 12px 15px;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+body.light-mode .admin-form input[type="password"] {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.admin-form input[type="password"]:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.admin-submit, .admin-cancel {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.admin-submit {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.admin-submit:hover {
+    transform: scale(1.05);
+}
+
+.admin-cancel {
+    background: var(--danger-color);
+    color: #fff;
+}
+
+.admin-cancel:hover {
+    transform: scale(1.05);
 }
 
 /* ---------- SERVICES SECTION ---------- */
@@ -651,6 +784,63 @@ body.light-mode .pending-request {
     background: #c41763;
 }
 
+/* ---------- PROMO VIDEO SECTION ---------- */
+.promo-video-section {
+    background: rgba(0, 229, 255, 0.05);
+    border-radius: 15px;
+    padding: 50px 20px;
+    margin: 50px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+body.light-mode .promo-video-section {
+    background: rgba(2, 136, 209, 0.05);
+}
+
+.promo-video-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.promo-video-section video {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.promo-video-section video:hover {
+    transform: scale(1.02);
+}
+
+@keyframes shine {
+    0% { box-shadow: 0 8px 20px rgba(0, 229, 255, 0.4); }
+    50% { box-shadow: 0 8px 30px rgba(0, 229, 255, 0.8); }
+    100% { box-shadow: 0 8px 20px rgba(0, 229, 255, 0.4); }
+}
+
+.promo-cta-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #000;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 20px rgba(0, 229, 255, 0.4);
+    margin-top: 20px;
+    animation: shine 2s infinite;
+}
+
+.promo-cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 229, 255, 0.6);
+}
+
 /* ---------- FOOTER ---------- */
 footer {
     text-align: center;
@@ -691,7 +881,7 @@ footer {
     <div class="header-controls">
         <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
         <button class="playlist-toggle" id="playlistToggle">🎵 Playlist <span class="playlist-counter" id="playlistCounter">0</span></button>
-        <button id="admin-toggle" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin</button>
+        <button id="admin-toggle-header" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin</button>
     </div>
 </header>
 
@@ -721,6 +911,7 @@ footer {
                     <a class="download-btn" href="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3" download="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="1">+ Playlist</button>
                 </div>
+                <small class="play-count" data-id="1">Plays: 2000</small>
             </div>
         </div>
 
@@ -737,6 +928,7 @@ footer {
                     <a class="download-btn" href="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3" download="Man-Shift-X-Big-Teafer-Feat-Celeb-City-Tulabubwa.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="2">+ Playlist</button>
                 </div>
+                <small class="play-count" data-id="2">Plays: 2074</small>
             </div>
         </div>
 
@@ -753,6 +945,7 @@ footer {
                     <a class="download-btn" href="Martinezia-Indine-number-One-Kachasu.mp3" download="Martinezia-Indine-number-One-Kachasu.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="3">+ Playlist</button>
                 </div>
+                <small class="play-count" data-id="3">Plays: 2099</small>
             </div>
         </div>
 
@@ -769,6 +962,7 @@ footer {
                     <a class="download-btn" href="Flamm2-Aboloka--prod-by-flamm2-.mp3" download="Flamm2-Aboloka--prod-by-flamm2-.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="4">+ Playlist</button>
                 </div>
+                <small class="play-count" data-id="4">Plays: 3034</small>
             </div>
         </div>
 
@@ -787,6 +981,38 @@ footer {
         </ul>
     </div>
 </div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="admin-modal" id="adminModal">
+    <div class="admin-content">
+        <div class="admin-header">
+            <h2>🔐 Admin Login</h2>
+        </div>
+        <form class="admin-form" id="adminForm">
+            <div>
+                <label for="admin-password">Enter Admin Password:</label>
+                <input type="password" id="admin-password" name="admin-password" placeholder="Enter password" required>
+            </div>
+            <div class="admin-buttons">
+                <button type="button" class="admin-cancel" id="adminCancel">Cancel</button>
+                <button type="submit" class="admin-submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- PROMO VIDEO SECTION -->
+<section class="promo-video-section">
+    <h2>🎥 Discover VapMusic</h2>
+
+     <div class="promo-cta-btn">📥 Download and Upload Your Song at 25Kwacha Only! Call Us On or WhatsApp Us On 0965655404</div>
+      <h2>🎥 </h2>
+    <video autoplay loop controls muted>
+        <source src="promo video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="promo-cta-btn">📥 Download and Upload Your Song at 25Kwacha Only! Call Us On or WhatsApp Us On 0965655404</div>
+</section>
 
 <!-- SERVICES SECTION -->
 <section class="services-section">
@@ -889,7 +1115,7 @@ footer {
     </form>
 
     <div style="text-align: center; margin-bottom: 20px;">
-        <button id="admin-toggle" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin Panel</button>
+        <button id="admin-toggle-billing" class="theme-toggle" style="background: var(--danger-color); color: #fff;">🔒 Admin Panel</button>
     </div>
     <div id="approval-section" style="display: none;">
         <h3>⏳ Pending Approvals</h3>
@@ -907,6 +1133,12 @@ footer {
 // Playlist Management
 let playlist = JSON.parse(localStorage.getItem('vapPlaylist')) || [];
 let billingRequests = JSON.parse(localStorage.getItem('vapBillingRequests')) || [];
+let playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {
+    1: 2000,
+    2: 2074,
+    3: 2099,
+    4: 3034
+};
 const musicData = {
     1: { title: 'Never Give Up', artist: 'Mr Fresh Ft Flex & Venus' },
     2: { title: 'Tulabubwa', artist: 'Man-Shift-X-Big-Teafer-Feat-Celeb-City' },
@@ -1131,6 +1363,7 @@ function addApprovedMusicToGrid(request) {
         <div class="music-content">
             <h3>${request.songTitle}</h3>
             <p>${request.artistName}</p>
+            <small class="play-count" data-id="${request.id}">Plays: 2000</small>
             <audio controls>
                 <source src="${request.audioFile ? URL.createObjectURL(request.audioFile) : ''}" type="audio/mpeg">
             </audio>
@@ -1142,6 +1375,7 @@ function addApprovedMusicToGrid(request) {
     `;
     musicGrid.insertBefore(newCard, musicGrid.firstChild);
     updateAddButtons();
+    updatePlayCounts();
 }
 
 function rejectRequest(id) {
@@ -1157,16 +1391,67 @@ function rejectRequest(id) {
 }
 
 // Admin Panel Toggle
-const adminToggle = document.getElementById('admin-toggle');
-adminToggle.addEventListener('click', () => {
-    const password = prompt('Enter admin password:');
+const adminToggleHeader = document.getElementById('admin-toggle-header');
+const adminToggleBilling = document.getElementById('admin-toggle-billing');
+const adminModal = document.getElementById('adminModal');
+const adminForm = document.getElementById('adminForm');
+const adminCancel = document.getElementById('adminCancel');
+
+function openAdminModal() {
+    adminModal.classList.add('active');
+    document.getElementById('admin-password').focus();
+}
+
+function closeAdminModal() {
+    adminModal.classList.remove('active');
+    adminForm.reset();
+}
+
+adminToggleHeader.addEventListener('click', openAdminModal);
+adminToggleBilling.addEventListener('click', openAdminModal);
+
+adminCancel.addEventListener('click', closeAdminModal);
+
+adminModal.addEventListener('click', (e) => {
+    if (e.target === adminModal) {
+        closeAdminModal();
+    }
+});
+
+adminForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = document.getElementById('admin-password').value;
     if (password === '111222') {
         const approvalSection = document.getElementById('approval-section');
         approvalSection.style.display = approvalSection.style.display === 'none' ? 'block' : 'none';
-        adminToggle.textContent = approvalSection.style.display === 'none' ? '🔒 Admin Panel' : '🔓 Admin Panel';
+        adminToggleHeader.textContent = approvalSection.style.display === 'none' ? '🔒 Admin' : '🔓 Admin';
+        adminToggleBilling.textContent = approvalSection.style.display === 'none' ? '🔒 Admin Panel' : '🔓 Admin Panel';
+        closeAdminModal();
     } else {
         alert('Incorrect password!');
+        document.getElementById('admin-password').focus();
     }
+});
+
+// Play Count Functions
+function updatePlayCounts() {
+    document.querySelectorAll('.play-count').forEach(el => {
+        const id = el.dataset.id;
+        const count = playCounts[id] || 2000;
+        el.textContent = `Plays: ${count}`;
+    });
+}
+
+// Add event listeners for audio play
+document.querySelectorAll('audio').forEach(audio => {
+    audio.addEventListener('play', () => {
+        const card = audio.closest('.music-card');
+        const playCountEl = card.querySelector('.play-count');
+        const id = playCountEl.dataset.id;
+        playCounts[id] = (playCounts[id] || 2000) + 1;
+        localStorage.setItem('vapPlayCounts', JSON.stringify(playCounts));
+        updatePlayCounts();
+    });
 });
 
 // Initialize approval list
@@ -1175,6 +1460,7 @@ updateApprovalList();
 // Initialize
 updatePlaylistUI();
 updateAddButtons();
+updatePlayCounts();
 console.log("VAPMUSIC loaded successfully 🎵");
 </script>
 
