@@ -877,7 +877,6 @@ footer {
 <body>
 
 <header>
-    
     <h1>VapMusic</h1>
     <div class="header-controls">
         <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
@@ -899,6 +898,24 @@ footer {
     <div class="music-grid" id="musicGrid">
 
         <!-- MUSIC ITEM 1 -->
+        <div class="music-card" data-title="Kill My Time" data-artist="Kazman Ft Dj barbie">
+            <span class="latest-badge">🔥 LATEST</span>
+            <img src="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].jpeg" alt="Album Art">
+            <div class="music-content">
+                <h3>Kill My Time</h3>
+                <p>Kazman Ft Dj barbie</p>
+                <audio controls>
+                    <source src="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].mp3" type="audio/mpeg">
+                </audio>
+                <div class="button-group">
+                    <a class="download-btn" href="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].mp3" download="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="5">+ Playlist</button>
+                </div>
+                <small class="play-count" data-id="5">Plays: 0</small>
+            </div>
+        </div>
+
+        <!-- MUSIC ITEM 2 -->
         <div class="music-card" data-title="Never Give Up" data-artist="Mr Fresh Ft Flex & Venus">
             <span class="latest-badge">🔥 LATEST</span>
             <img src="MR FRESH-FT-FLEX-&-VENUS-NEVER GIVE UP-[PROD by G ONE SMART].jpg" alt="Album Art">
@@ -1134,17 +1151,41 @@ footer {
 // Playlist Management
 let playlist = JSON.parse(localStorage.getItem('vapPlaylist')) || [];
 let billingRequests = JSON.parse(localStorage.getItem('vapBillingRequests')) || [];
+// Initialize song addition timestamps if not exists
+let songTimestamps = JSON.parse(localStorage.getItem('vapSongTimestamps')) || {};
+
 let playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {
     1: 2000,
     2: 2074,
     3: 2099,
-    4: 3034
+    4: 3034,
+    5: 194
 };
+
+// Check if song 5 (Kill My Time) has been added for more than a day
+const ONE_DAY_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const currentTime = Date.now();
+
+if (!songTimestamps[5]) {
+    // First time loading - set timestamp
+    songTimestamps[5] = currentTime;
+    localStorage.setItem('vapSongTimestamps', JSON.stringify(songTimestamps));
+} else {
+    // Check if a day has passed
+    const timePassed = currentTime - songTimestamps[5];
+    if (timePassed > ONE_DAY_MS) {
+        // More than a day has passed - reset to 2000
+        playCounts[5] = 2000;
+        localStorage.setItem('vapPlayCounts', JSON.stringify(playCounts));
+    }
+}
+
 const musicData = {
     1: { title: 'Never Give Up', artist: 'Mr Fresh Ft Flex & Venus' },
     2: { title: 'Tulabubwa', artist: 'Man-Shift-X-Big-Teafer-Feat-Celeb-City' },
     3: { title: 'Indine-number-One-Kachasu', artist: 'Martinezia' },
-    4: { title: 'Aboloka', artist: 'Flamm2' }
+    4: { title: 'Aboloka', artist: 'Flamm2' },
+    5: { title: 'Kill My Time', artist: 'Kazman Ft Dj barbie' }
 };
 
 // Theme Toggle
@@ -1466,6 +1507,4 @@ console.log("VAPMUSIC loaded successfully 🎵");
 </script>
 
 </body>
-
 </html>
-
