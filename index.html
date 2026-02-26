@@ -38,6 +38,119 @@ a {
     color: inherit;
 }
 
+/* ---------- MEMBER COUNTER BAR ---------- */
+.member-bar {
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+body.light-mode .member-bar {
+    background: linear-gradient(135deg, #e8e8e8, #d0d0d0, #c0c0c0);
+}
+
+.member-counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.member-counter .icon {
+    font-size: 1.4rem;
+}
+
+.member-counter .count {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    min-width: 60px;
+}
+
+body.light-mode .member-counter .count {
+    color: var(--primary-color);
+}
+
+.member-register {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.member-register input[type="email"] {
+    padding: 10px 15px;
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    width: 200px;
+    transition: all 0.3s;
+}
+
+body.light-mode .member-register input[type="email"] {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.member-register input[type="email"]:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.member-register input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+body.light-mode .member-register input[type="email"]::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.register-btn {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: #000;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.register-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
+}
+
+.register-btn:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.registered-badge {
+    background: #4caf50;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
 /* ---------- HEADER ---------- */
 header {
     padding: 30px;
@@ -885,6 +998,23 @@ footer {
     </div>
 </header>
 
+<!-- MEMBER COUNTER BAR -->
+<div class="member-bar">
+    <div class="member-counter">
+        <span class="icon">👥</span>
+        <span>Registered Members:</span>
+        <span class="count" id="memberCount">5000</span>
+        <span>🇿🇲 Zambia</span>
+    </div>
+    <div class="member-register" id="memberRegister">
+        <input type="email" id="memberEmail" placeholder="Enter your email to register">
+        <button class="register-btn" id="registerBtn">Register</button>
+    </div>
+    <div class="registered-badge" id="registeredBadge" style="display: none;">
+        ✓ You're Registered!
+    </div>
+</div>
+
 <div class="search-container">
     <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search music by title or artist...">
 </div>
@@ -896,6 +1026,24 @@ footer {
     <h2 class="section-title">Latest Music</h2>
 
     <div class="music-grid" id="musicGrid">
+
+        <!-- MUSIC ITEM NEW -->
+        <div class="music-card" data-title="Tulimaule Kuchushi" data-artist="Governor Ubuteko">
+            <span class="latest-badge">🔥 LATEST</span>
+            <img src="Governor Ubuteko - Tulimaule Kufyushi[prod by D40 beats].jpeg" alt="Album Art">
+            <div class="music-content">
+                <h3>Tulimaule Kuchushi</h3>
+                <p>Governor Ubuteko</p>
+                <audio controls>
+                    <source src="Governor Ubuteko - Tulimaule Kufyushi[prod by D40 beats].mp3" type="audio/mpeg">
+                </audio>
+                <div class="button-group">
+                    <a class="download-btn" href="Governor Ubuteko - Tulimaule Kufyushi[prod by D40 beats].mp3" download="Governor - Tulimaule Kuchushi - Official Audio.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="6">+ Playlist</button>
+                </div>
+                <small class="play-count" data-id="6">Plays: 0</small>
+            </div>
+        </div>
 
         <!-- MUSIC ITEM 1 -->
         <div class="music-card" data-title="Kill My Time" data-artist="Kazman Ft Dj barbie">
@@ -1141,6 +1289,15 @@ footer {
             <p style="opacity: 0.7; text-align: center;">No pending requests yet.</p>
         </div>
     </div>
+    
+    <!-- Registered Members Section (Admin Only) -->
+    <div id="members-section" style="display: none; margin-top: 30px;">
+        <h3>👥 Registered Members</h3>
+        <p style="margin-bottom: 15px;">Total Members: <strong id="totalMembersCount">0</strong></p>
+        <div id="registered-members-list">
+            <p style="opacity: 0.7; text-align: center;">No members registered yet.</p>
+        </div>
+    </div>
 </section>
 
 <footer>
@@ -1159,7 +1316,8 @@ let playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {
     2: 2074,
     3: 2099,
     4: 3034,
-    5: 194
+    5: 2000,
+    6: 0
 };
 
 // Check if song 5 (Kill My Time) has been added for more than a day
@@ -1185,7 +1343,8 @@ const musicData = {
     2: { title: 'Tulabubwa', artist: 'Man-Shift-X-Big-Teafer-Feat-Celeb-City' },
     3: { title: 'Indine-number-One-Kachasu', artist: 'Martinezia' },
     4: { title: 'Aboloka', artist: 'Flamm2' },
-    5: { title: 'Kill My Time', artist: 'Kazman Ft Dj barbie' }
+    5: { title: 'Kill My Time', artist: 'Kazman Ft Dj barbie' },
+    6: { title: 'Tulimaule Kufyushi', artist: 'Governor Ubuteko' }
 };
 
 // Theme Toggle
@@ -1399,23 +1558,57 @@ function addApprovedMusicToGrid(request) {
     newCard.className = 'music-card';
     newCard.setAttribute('data-title', request.songTitle);
     newCard.setAttribute('data-artist', request.artistName);
+    
+    // Add to musicData for playlist functionality
+    const songId = request.id;
+    musicData[songId] = { title: request.songTitle, artist: request.artistName };
+    
+    // Initialize play count for this song
+    playCounts[songId] = 2000;
+    localStorage.setItem('vapPlayCounts', JSON.stringify(playCounts));
+    
     newCard.innerHTML = `
         <span class="latest-badge">🔥 NEW</span>
         <img src="${request.imageFile ? URL.createObjectURL(request.imageFile) : 'placeholder.jpg'}" alt="Album Art">
         <div class="music-content">
             <h3>${request.songTitle}</h3>
             <p>${request.artistName}</p>
-            <small class="play-count" data-id="${request.id}">Plays: 2000</small>
+            <small class="play-count" data-id="${songId}">Plays: 2000</small>
             <audio controls>
                 <source src="${request.audioFile ? URL.createObjectURL(request.audioFile) : ''}" type="audio/mpeg">
             </audio>
             <div class="button-group">
                 <a class="download-btn" href="${request.audioFile ? URL.createObjectURL(request.audioFile) : ''}" download="${request.songTitle}.mp3">Download</a>
-                <button class="add-to-playlist-btn" data-id="${request.id}">+ Playlist</button>
+                <button class="add-to-playlist-btn" data-id="${songId}">+ Playlist</button>
             </div>
         </div>
     `;
     musicGrid.insertBefore(newCard, musicGrid.firstChild);
+    
+    // Add event listener for the new playlist button
+    const newBtn = newCard.querySelector('.add-to-playlist-btn');
+    newBtn.addEventListener('click', () => {
+        const id = parseInt(newBtn.dataset.id);
+        if (playlist.includes(id)) {
+            playlist = playlist.filter(item => item !== id);
+        } else {
+            playlist.push(id);
+        }
+        localStorage.setItem('vapPlaylist', JSON.stringify(playlist));
+        updatePlaylistUI();
+        updateAddButtons();
+    });
+    
+    // Add event listener for the new audio
+    const newAudio = newCard.querySelector('audio');
+    newAudio.addEventListener('play', () => {
+        const playCountEl = newCard.querySelector('.play-count');
+        const id = playCountEl.dataset.id;
+        playCounts[id] = (playCounts[id] || 2000) + 1;
+        localStorage.setItem('vapPlayCounts', JSON.stringify(playCounts));
+        updatePlayCounts();
+    });
+    
     updateAddButtons();
     updatePlayCounts();
 }
@@ -1504,6 +1697,117 @@ updatePlaylistUI();
 updateAddButtons();
 updatePlayCounts();
 console.log("VAPMUSIC loaded successfully 🎵");
+
+// ==================== MEMBER REGISTRATION SYSTEM ====================
+const BASE_MEMBER_COUNT = 5000;
+const memberCountEl = document.getElementById('memberCount');
+const memberEmailInput = document.getElementById('memberEmail');
+const registerBtn = document.getElementById('registerBtn');
+const memberRegisterDiv = document.getElementById('memberRegister');
+const registeredBadge = document.getElementById('registeredBadge');
+
+// Get stored data
+let registeredEmails = JSON.parse(localStorage.getItem('vapRegisteredEmails')) || [];
+let currentMemberCount = parseInt(localStorage.getItem('vapMemberCount')) || BASE_MEMBER_COUNT;
+
+// Initialize member count display
+memberCountEl.textContent = currentMemberCount.toLocaleString();
+
+// Check if user is already registered
+function checkUserRegistration() {
+    const userEmail = localStorage.getItem('vapUserEmail');
+    if (userEmail && registeredEmails.includes(userEmail)) {
+        memberRegisterDiv.style.display = 'none';
+        registeredBadge.style.display = 'block';
+    }
+}
+
+// Update member count
+function updateMemberCount() {
+    memberCountEl.textContent = currentMemberCount.toLocaleString();
+    localStorage.setItem('vapMemberCount', currentMemberCount);
+}
+
+// Register new member
+function registerMember(email) {
+    // Validate email
+    if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address!');
+        return false;
+    }
+    
+    // Check if email already registered
+    if (registeredEmails.includes(email)) {
+        alert('This email is already registered!');
+        return false;
+    }
+    
+    // Add email to registered list
+    registeredEmails.push(email);
+    localStorage.setItem('vapRegisteredEmails', JSON.stringify(registeredEmails));
+    
+    // Store user's email for session
+    localStorage.setItem('vapUserEmail', email);
+    
+    // Increment member count
+    currentMemberCount++;
+    updateMemberCount();
+    
+    // Update UI
+    memberRegisterDiv.style.display = 'none';
+    registeredBadge.style.display = 'block';
+    
+    // Show success message
+    alert('Welcome to VapMusic! You are now member #' + currentMemberCount.toLocaleString() + '!');
+    
+    return true;
+}
+
+// Register button click handler
+registerBtn.addEventListener('click', () => {
+    const email = memberEmailInput.value.trim();
+    if (email) {
+        registerMember(email);
+    } else {
+        alert('Please enter your email address!');
+        memberEmailInput.focus();
+    }
+});
+
+// Enter key handler for email input
+memberEmailInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const email = memberEmailInput.value.trim();
+        if (email) {
+            registerMember(email);
+        } else {
+            alert('Please enter your email address!');
+        }
+    }
+});
+
+// Check registration on page load
+checkUserRegistration();
+
+// Simulate real-time member count updates (random increments to show activity)
+function simulateRealTimeMembers() {
+    const randomInterval = Math.random() * 30000 + 30000;
+    
+    setTimeout(() => {
+        if (Math.random() < 0.3) {
+            currentMemberCount++;
+            updateMemberCount();
+        }
+        simulateRealTimeMembers();
+    }, randomInterval);
+}
+
+// Start real-time simulation
+if (currentMemberCount < BASE_MEMBER_COUNT + 100) {
+    simulateRealTimeMembers();
+}
+
+console.log("Member registration system initialized!");
 </script>
 
 </body>
