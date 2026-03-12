@@ -17,7 +17,7 @@
     --text-light: #333;
 }
 
-body.light-mode {
+body.light-mode {        
     --primary-color: #0288d1;
     --secondary-color: #0097a7;
     --danger-color: #d32f2f;
@@ -1027,6 +1027,24 @@ footer {
 
     <div class="music-grid" id="musicGrid">
 
+        <!-- MUSIC ITEM NEWEST -->
+        <div class="music-card" data-title="CHIKONDI CHAWO" data-artist="SHEPARDIZO ZAMBIA">
+            <span class="latest-badge">🔥 LATEST</span>
+            <img src="SHEPARDIZO ZAMBIA-CHIKONDI CHAWO.jpg" alt="Album Art">
+            <div class="music-content">
+                <h3>CHIKONDI CHAWO</h3>
+                <p>SHEPARDIZO ZAMBIA</p>
+                <audio controls>
+                    <source src="SHEPARDIZO ZAMBIA-CHIKONDI CHAWO.mp3" type="audio/mpeg">
+                </audio>
+                <div class="button-group">
+                    <a class="download-btn" href="SHEPARDIZO ZAMBIA-CHIKONDI CHAWO.mp3" download="SHEPARDIZO ZAMBIA - CHIKONDI CHAWO.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="7">+ Playlist</button>
+                </div>
+                <small class="play-count" data-id="7">Plays: 0</small>
+            </div>
+        </div>
+
         <!-- MUSIC ITEM NEW -->
         <div class="music-card" data-title="Tulimaule Kuchushi" data-artist="Governor Ubuteko">
             <span class="latest-badge">🔥 LATEST</span>
@@ -1317,7 +1335,8 @@ let playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {
     3: 2099,
     4: 3034,
     5: 2000,
-    6: 0
+    6: 0,
+    7: 0
 };
 
 // Check if song 5 (Kill My Time) has been added for more than a day
@@ -1344,7 +1363,8 @@ const musicData = {
     3: { title: 'Indine-number-One-Kachasu', artist: 'Martinezia' },
     4: { title: 'Aboloka', artist: 'Flamm2' },
     5: { title: 'Kill My Time', artist: 'Kazman Ft Dj barbie' },
-    6: { title: 'Tulimaule Kufyushi', artist: 'Governor Ubuteko' }
+    6: { title: 'Tulimaule Kufyushi', artist: 'Governor Ubuteko' },
+    7: { title: 'CHIKONDI CHAWO', artist: 'SHEPARDIZO ZAMBIA' }
 };
 
 // Theme Toggle
