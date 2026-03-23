@@ -1027,8 +1027,25 @@ footer {
 
     <div class="music-grid" id="musicGrid">
 
-        <!-- MUSIC ITEM NEWEST -->
+        <div class="music-card" data-title="Mubelele" data-artist="Mr Blown jc Ft Frank Ro & Ex Bata">
+            <span class="latest-badge">🔥 LATEST</span>
+            <img src="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele [pro by Captain BeatsK.D.O.T.M.H].jpeg" alt="Album Art">
+            <div class="music-content">
+                <h3>Mubelele</h3>
+                <p>Mr Blown jc Ft Frank Ro & Ex Bata</p>
+                <audio controls>
+                    <source src="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele [pro by Captain BeatsK.D.O.T.M.H].mp3" type="audio/mpeg">
+                </audio>
+                <div class="button-group">
+                    <a class="download-btn" href="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele [pro by Captain BeatsK.D.O.T.M.H].mp3" download="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele.mp3">Download</a>
+                    <button class="add-to-playlist-btn" data-id="8">+ Playlist</button>
+                </div>
+<small class="play-count" data-id="8">Plays: 90</small>
+            </div>
+        </div>
+
         <div class="music-card" data-title="CHIKONDI CHAWO" data-artist="SHEPARDIZO ZAMBIA">
+
             <span class="latest-badge">🔥 LATEST</span>
             <img src="SHEPARDIZO ZAMBIA-CHIKONDI CHAWO.jpg" alt="Album Art">
             <div class="music-content">
@@ -1041,7 +1058,7 @@ footer {
                     <a class="download-btn" href="SHEPARDIZO ZAMBIA-CHIKONDI CHAWO.mp3" download="SHEPARDIZO ZAMBIA - CHIKONDI CHAWO.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="7">+ Playlist</button>
                 </div>
-                <small class="play-count" data-id="7">Plays: 0</small>
+<small class="play-count" data-id="7">Plays: 2678</small>
             </div>
         </div>
 
@@ -1059,7 +1076,7 @@ footer {
                     <a class="download-btn" href="Governor Ubuteko - Tulimaule Kufyushi[prod by D40 beats].mp3" download="Governor - Tulimaule Kuchushi - Official Audio.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="6">+ Playlist</button>
                 </div>
-                <small class="play-count" data-id="6">Plays: 0</small>
+<small class="play-count" data-id="6">Plays: 2865</small>
             </div>
         </div>
 
@@ -1077,7 +1094,7 @@ footer {
                     <a class="download-btn" href="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].mp3" download="Kazman Ft Dj barbie-Kill My Time[prod by Dj barbie].mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="5">+ Playlist</button>
                 </div>
-                <small class="play-count" data-id="5">Plays: 0</small>
+<small class="play-count" data-id="5">Plays: 300</small>
             </div>
         </div>
 
@@ -1329,8 +1346,7 @@ let billingRequests = JSON.parse(localStorage.getItem('vapBillingRequests')) || 
 // Initialize song addition timestamps if not exists
 let songTimestamps = JSON.parse(localStorage.getItem('vapSongTimestamps')) || {};
 
-let playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {
-    1: 2000,
+playCounts = JSON.parse(localStorage.getItem('vapPlayCounts')) || {\n    1: 2000,\n    8: 0,
     2: 2074,
     3: 2099,
     4: 3034,
@@ -1364,8 +1380,7 @@ const musicData = {
     4: { title: 'Aboloka', artist: 'Flamm2' },
     5: { title: 'Kill My Time', artist: 'Kazman Ft Dj barbie' },
     6: { title: 'Tulimaule Kufyushi', artist: 'Governor Ubuteko' },
-    7: { title: 'CHIKONDI CHAWO', artist: 'SHEPARDIZO ZAMBIA' }
-};
+    7: { title: 'CHIKONDI CHAWO', artist: 'SHEPARDIZO ZAMBIA' },\n    8: { title: 'Mubelele', artist: 'Mr Blown jc Ft Frank Ro & Ex Bata' }\n}; 
 
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
