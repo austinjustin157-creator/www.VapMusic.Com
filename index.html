@@ -1027,6 +1027,36 @@ footer {
 
     <div class="music-grid" id="musicGrid">
 
+        <!-- NEW LATEST SONG - Lie by DaliXL ID=9 -->
+        <div class="music-card" data-title="Lie" data-artist="DaliXL">
+            <span class="latest-badge">🔥 LATEST</span>
+            <img src="DaliXL-Lie (prod.Akin Lexus×Gunkie).jpeg" alt="Lie Album Art">
+</xai:function_call >
+
+<xai:function_call name="edit_file">
+
+            <div class="music-content">
+                <h3>Lie</h3>
+                <p>DaliXL</p>
+                <audio id="firstSongAudio" controls preload="metadata" onerror="handleAudioError(this)">
+                    <source src="DaliXL-Lie (prod.Akin Lexus×Gunkie).mp3" type="audio/mpeg">
+                    Your browser cannot play this audio.
+                </audio>
+                <div style="margin: 10px 0;">
+                    <button id="playFirstBtn" class="download-btn" style="background: linear-gradient(135deg, #4caf50, #45a049); width: 100%;">▶️ PLAY NEW SONG </button>
+                </div>
+                <div class="button-group">
+                    <a class="download-btn" href="DaliXL-Lie (prod.Akin Lexus×Gunkie).mp3" download="DaliXL - Lie.mp3">Download</a>
+</xai:function_call > 
+
+<xai:function_call name="edit_file">
+
+                    <button class="add-to-playlist-btn" data-id="9">+ Playlist</button>
+                </div>
+<small class="play-count" data-id="9">Plays: 211</small>
+            </div>
+        </div>
+
         <div class="music-card" data-title="Mubelele" data-artist="Mr Blown jc Ft Frank Ro & Ex Bata">
             <span class="latest-badge">🔥 LATEST</span>
             <img src="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele [pro by Captain BeatsK.D.O.T.M.H].jpeg" alt="Album Art">
@@ -1040,7 +1070,7 @@ footer {
                     <a class="download-btn" href="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele [pro by Captain BeatsK.D.O.T.M.H].mp3" download="Mr Blown jc Ft Frank Ro & Ex Bata - Mubelele.mp3">Download</a>
                     <button class="add-to-playlist-btn" data-id="8">+ Playlist</button>
                 </div>
-<small class="play-count" data-id="8">Plays: 90</small>
+<small class="play-count" data-id="8">Plays: 2056</small>
             </div>
         </div>
 
@@ -1732,6 +1762,49 @@ updatePlaylistUI();
 updateAddButtons();
 updatePlayCounts();
 console.log("VAPMUSIC loaded successfully 🎵");
+
+// ==================== FIRST SONG PLAY FIX ====================
+function handleAudioError(audio) {
+  console.error('Audio load error:', audio.src);
+  alert('Audio file issue detected. Use PLAY NOW button or download.');
+}
+
+const firstAudio = document.getElementById('firstSongAudio');
+const playFirstBtn = document.getElementById('playFirstBtn');
+
+if (firstAudio && playFirstBtn) {
+  let isPlaying = false;
+  
+  playFirstBtn.addEventListener('click', async () => {
+    try {
+      if (isPlaying) {
+        firstAudio.pause();
+        playFirstBtn.textContent = '▶️ PLAY NOW';
+        playFirstBtn.style.background = 'linear-gradient(135deg, #4caf50, #45a049)';
+        isPlaying = false;
+      } else {
+        firstAudio.currentTime = 0;
+        await firstAudio.play();
+        playFirstBtn.textContent = '⏸️ PAUSE';
+        playFirstBtn.style.background = 'linear-gradient(135deg, #ff9800, #f57c00)';
+        isPlaying = true;
+        
+        firstAudio.addEventListener('ended', function onEnded() {
+          playFirstBtn.textContent = '▶️ PLAY NOW';
+          playFirstBtn.style.background = 'linear-gradient(135deg, #4caf50, #45a049)';
+          isPlaying = false;
+          firstAudio.removeEventListener('ended', onEnded);
+        }, {once: true});
+      }
+    } catch (error) {
+      console.error('Play failed:', error);
+      playFirstBtn.textContent = '❌ PLAY FAILED - DOWNLOAD';
+      playFirstBtn.style.background = 'linear-gradient(135deg, var(--danger-color), #c41763)';
+      playFirstBtn.onclick = null;
+      alert(`Play error: ${error.message}\n\nTry download button or check console (F12).`);
+    }
+  });
+}
 
 // ==================== MEMBER REGISTRATION SYSTEM ====================
 const BASE_MEMBER_COUNT = 5000;
